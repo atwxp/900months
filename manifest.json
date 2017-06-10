@@ -1,0 +1,13 @@
+{
+    "manifest_version": 2,
+
+    "name": "900months",
+
+    "version": "2.0",
+
+    "browser_action": {
+    },
+
+    "background": {
+    }
+}
