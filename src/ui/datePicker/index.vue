@@ -256,7 +256,7 @@ export default {
                 case 'date':
                     title = [value.year, value.month].join(' ')
 
-                    const firstDayOfMonth = this.getFirstDayOfMonth()
+                    const firstDayOfMonth = this.getFirstDayOfMonth() || 7
 
                     const totalDaysOfMonth = this.getToalDaysOfMonth()
 
@@ -365,10 +365,6 @@ export default {
         line-height: 50px;
         border-radius: 4px;
 
-        &.weekend {
-            color: #e02d2d;
-        }
-
         &.gray {
             color: #bfbfbf;
         }
@@ -393,11 +389,22 @@ export default {
     &.u-datepicker-date {
         td {
             padding: 0;
+
+            &.weekend {
+                color: #e02d2d;
+            }
+        }
+        th {
+            padding: 15px 0;
         }
         span {
             width: 100%;
             line-height: 26px;
             margin: 6px 2px 0;
+
+            &.weekend {
+                color: #e02d2d;
+            }
         }
     }
 }
