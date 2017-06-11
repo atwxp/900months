@@ -144,7 +144,15 @@ export default {
                     this.value.year -= 1
                     break
                 case 'date':
-                    this.value.month = MONTH[MONTH.indexOf(this.value.month) - 1]
+                    const index = MONTH.indexOf(this.value.month)
+
+                    Object.assign(this.value, Object.assign(
+                        {
+                            month: MONTH[index && index - 1 || MONTH.length - 1]
+                        },
+                        index ? {} : { year: this.value.year - 1}
+                    ))
+
                     break
 
                 default:
@@ -161,7 +169,13 @@ export default {
                     this.value.year += 1
                     break
                 case 'date':
-                    this.value.month = MONTH[MONTH.indexOf(this.value.month) + 1]
+                    const index = (MONTH.indexOf(this.value.month) + 1) % 12
+                    
+                    Object.assign(this.value, Object.assign(
+                        { month: MONTH[index] },
+                        index === 0 ? { year: this.value.year + 1} : {}
+                    ))
+
                     break
                 default:
 
@@ -308,20 +322,19 @@ export default {
             this.title = title
 
             this.range = range
-
-            if (this.viewLevel[this.viewLevel.length - 1] === this.curView) {
-                let { year, month, date } = this.value
-
-                month = ('' + (MONTH.indexOf(month) + 1)).padStart(2, 0)
-
-                this.$emit('change', moment(`${month}-${date}-${year}`, ['MM-DD-YYYY']).format(`${this.format}`))
-            }
         },
 
         goNext(e) {
             const text = e.target.dataset['text']
 
             this.value[this.curView] = ['year', 'date'].includes(this.curView) ? parseInt(text, 10) : text
+
+            let { year, month, date } = this.value
+            month = MONTH.indexOf(month) + 1
+            this.$emit('change', {
+                text: moment(`${month}-${date}-${year}`, ['MM-DD-YYYY']).format(`${this.format}`),
+                raw: Object.assign({}, this.value, { month })
+            })
 
             this.setView(true)
         }

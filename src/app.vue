@@ -1,8 +1,27 @@
 <template>
 <div class="app">
-    <component :is="activeView" :birthday="birthday" v-on:clickBtn="handleClick"></component>
+    <component :is="activeView" :birthday="birthday.raw"
+        v-on:showdate="showdate">
+    </component>
 
-    <u-button v-show="activeView != 'entry'" class="reset" v-on:clickHandler="handleClick('entry')" text="Reset"></u-button>
+    <template v-if="activeView === 'entry'">
+        <u-button class="set-btn" type="primary" size="large"
+            v-on:clickHandler="toView('calendar')" text="Set your day">
+        </u-button>
+    </template>
+
+    <template v-if="activeView === 'calendar' && birthday.text">
+    <div>
+        <p class="calendar-info">Your date is: {{ birthday.text }}</p>
+        <u-button type="primary" size="large"
+            v-on:clickHandler="toView('artboard')" text="Draw my life">
+        </u-button>
+    </div>
+    </template>
+
+    <u-button v-if="activeView != 'entry'" class="reset-btn"
+        v-on:clickHandler="toView('entry')" text="Reset">
+    </u-button>
 </div>
 </template>
 
@@ -18,7 +37,8 @@ const LS_KEY = '900birth'
 export default {
     data() {
         return {
-            activeView: 'entry'
+            activeView: 'entry',
+            birthday: {}
         }
     },
 
@@ -30,29 +50,52 @@ export default {
     },
 
     created() {
-        const birth = this.readBirth()
-
-        this.birthday = birth
-
-        this.activeView = birth ? 'artboart' : 'entry'
+        this.birthday.raw = this.readBirth()
+        this.toView(this.birthday.raw ? 'artboard' : 'entry')
     },
 
     methods: {
-        handleClick(view) {
+        showdate(date) {
+            this.birthday = date
+        },
+
+        toView(view) {
+            if (view === 'artboard') {
+                this.saveBirth(this.birthday.raw)
+
+                // this.saveBirth(this.birthday.raw).then(() => {
+                //     this.activeView = view
+                // })
+            }
+
+            if (view === 'entry') {
+                this.clearBirth()
+                this.birthday = {}
+            }
+    
             this.activeView = view
         },
 
         readBirth() {
-            // localStorage.getItem(LS_KEY)
+            try {
+                return JSON.parse(localStorage.getItem(LS_KEY))
+            }
+            catch (e) {
+                return null
+            }
         },
 
         saveBirth(birth) {
             try {
-                // localStorage.setItem(LS_KEY, birth)
+                localStorage.setItem(LS_KEY, JSON.stringify(birth))
             }
             catch (e) {
 
             }
+        },
+
+        clearBirth() {
+            localStorage.removeItem(LS_KEY)
         }
     }
 }
@@ -101,11 +144,19 @@ html, body,
     justify-content: center;
     align-items: center;
     text-align: center;
+    flex-direction: column;
+    box-sizing: border-box;
+    padding: 50px 0;
 
     > div {
         width: 100%;
     }
-    .reset {
+
+    .set-btn {
+        margin-top: auto;
+    }
+
+    .reset-btn {
         position: fixed;
         bottom: 10px;
         right: 10px;

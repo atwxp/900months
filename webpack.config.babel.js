@@ -2,6 +2,7 @@ import path from 'path'
 import webpack from 'webpack'
 import ExtractTextPlugin from 'extract-text-webpack-plugin'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
+import CopyWebpackPlugin from 'copy-webpack-plugin'
 
 const SRC_PARH = path.join(__dirname, 'src')
 const DIST_PATH = path.join(__dirname, 'dist')
@@ -51,26 +52,22 @@ export default {
         ]
     },
 
-    devtool: 'source-map',
+    // devtool: 'source-map',
 
     plugins: [
         new ExtractTextPlugin('index.css'),
 
         new HtmlWebpackPlugin({
             template: 'index.html'
-        })
+        }),
 
-        // new CopyWebpackPlugin([
-        //     {from: '../manifest.json'},
-        //     {from: '../background.js'}
-        // ])
+        new CopyWebpackPlugin([
+            {from: '../manifest.json'}
+        ])
     ],
 
     resolve: {
         modules: [SRC_PARH, 'node_modules'],
-        // alias: {
-        //     'vue$': 'vue/dist/vue.common.js'
-        // },
         extensions: ['.js', '.json', '.vue']
     },
 
