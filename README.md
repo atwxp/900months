@@ -19,8 +19,4 @@ npm run crx
 
 ## 效果
 
-![](https://github.com/atwxp/900months/raw/master/img/entry.png)
-![](https://github.com/atwxp/900months/raw/master/img/year.png)
-![](https://github.com/atwxp/900months/raw/master/img/month.png)
-![](https://github.com/atwxp/900months/raw/master/img/date.png)
-![](https://github.com/atwxp/900months/raw/master/img/grid.png)
+![](https://github.com/atwxp/900months/raw/master/img/entry.jpg)
