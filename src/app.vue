@@ -72,7 +72,7 @@ export default {
                 this.clearBirth()
                 this.birthday = {}
             }
-    
+
             this.activeView = view
         },
 
@@ -137,6 +137,7 @@ body {
 html, body,
 .app {
     height: 100%;
+    -webkit-tap-highlight-color: rgba(255,255,255,0);
 }
 
 .app {
@@ -146,7 +147,9 @@ html, body,
     text-align: center;
     flex-direction: column;
     box-sizing: border-box;
+    width: 80%;
     padding: 50px 0;
+    margin: 0 auto;
 
     > div {
         width: 100%;
@@ -158,8 +161,8 @@ html, body,
 
     .reset-btn {
         position: fixed;
-        bottom: 10px;
-        right: 10px;
+        bottom: 20px;
+        width: 80%;
     }
 }
 </style>

@@ -56,7 +56,7 @@ export default {
                 || context.msBackingStorePixelRatio
                 || context.oBackingStorePixelRatio
                 || context.backingStorePixelRatio
-                || 1                
+                || 1
 
             const ratio = (window.devicePixelRatio || 1) / backingStorePixelRatio
 
@@ -79,7 +79,7 @@ export default {
 
             for (let i = 1; i < row; i++) {
                 context.beginPath()
-                
+
                 context.moveTo(0, i * cellH)
 
                 context.lineTo(width, i * cellH)
@@ -181,7 +181,3 @@ export default {
     }
 }
 </script>
-
-<style lang="less">
-
-</style>
